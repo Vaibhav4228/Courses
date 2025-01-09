@@ -1,0 +1,31 @@
+
+# Common Java Terminal Commands for Windows
+
+## Navigating Directories
+cd <directory>               # Change to a specific directory
+cd ..                        # Move up one directory level
+dir                          # List files and directories in the current folder
+
+## Compiling Java Files
+javac <filename>.java        # Compile a single Java file
+javac <directory>\*.java    # Compile all Java files in a directory
+
+## Running Java Programs
+java <classname>             # Run a Java program (class without package)
+java <package>.<classname>   # Run a Java program with a package
+
+## Cleaning Up
+del *.class                  # Delete all compiled class files
+
+## Compilation and Execution Example
+javac src\mypackage\MyClass.java
+java mypackage.MyClass
+
+## Miscellaneous
+java -version                # Check Java version
+javac -version               # Check Java compiler version
+echo %JAVA_HOME%             # Print the JAVA_HOME environment variable
+
+## Notes
+- Ensure your current directory matches the expected structure for packages.
+- JAVA_HOME must be set up correctly in your system's environment variables.
