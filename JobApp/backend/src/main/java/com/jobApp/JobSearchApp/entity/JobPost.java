@@ -1,18 +1,30 @@
 package com.jobApp.JobSearchApp.entity;
 
+import jakarta.persistence.*;
 import java.util.List;
 
+@Entity
+@Table(name = "job_posts")
 public class JobPost {
 
+    @Id
     private int postId;
+
+
     private String postProfile;
+
+
     private String postDesc;
+
     private Integer reqExperience;
+
     private List<String> postTechStack;
 
-    public JobPost() {
 
-    }
+
+
+
+    public JobPost() {}
 
     public JobPost(int postId, String postProfile, String postDesc, Integer reqExperience, List<String> postTechStack) {
         this.postId = postId;
