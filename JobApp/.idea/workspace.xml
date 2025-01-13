@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="22f890a1-0d89-4458-a970-cacc9b9b4e4f" name="Changes" comment="" />
+    <list default="true" id="22f890a1-0d89-4458-a970-cacc9b9b4e4f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/jobApp/JobSearchApp/repo/JobRepo.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/jobApp/JobSearchApp/repo/JobRepo.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2rReO2nKEe9UDiKOKiZKhgjgJf7" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -20,7 +22,7 @@
   "keyToString": {
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/my projects/JobApp/backend"
+    "last_opened_file_path": "D:/effigo learn/project/JobApp/backend"
   }
 }]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />

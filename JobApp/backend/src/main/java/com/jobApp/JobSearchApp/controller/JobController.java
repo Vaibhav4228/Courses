@@ -23,10 +23,9 @@ public class JobController {
     }
 
     @GetMapping("/keyword/{keyword}")
-    public List<JobPost> searchKyeword(@PathVariable("keyword") String keyword){
+    public List<JobPost> searchKeyword(@PathVariable("keyword") String keyword){
         return service.search(keyword);
     }
-
     @Transactional
     @GetMapping("/{postId}")
     public JobPost getJob(@PathVariable int postId) {
