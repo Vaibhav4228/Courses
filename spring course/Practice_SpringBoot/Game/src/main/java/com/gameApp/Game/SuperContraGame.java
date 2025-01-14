@@ -1,6 +1,6 @@
 package com.gameApp.Game;
 
-public class SuperContraGame {
+public class SuperContraGame implements GamingConsole {
     public void up(){
         System.out.println("jump");
     }
