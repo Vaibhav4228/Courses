@@ -16,6 +16,7 @@ public class CoourseJpaCommandLineRunner {
         repo.save(new Course(2, "AWS", "kafka"));
 
         repo.deleteById(1L);
+        
     }
 
 
