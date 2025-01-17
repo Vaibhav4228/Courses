@@ -1,15 +1,19 @@
 package com.vaibhav_effigo.WebApp.todo;
 
+import jakarta.validation.constraints.Size;
+
+import org.hibernate.annotations.BatchSize;
+
 import java.time.LocalDate;
 
 public class Todo {
     private int id;
     private String username;
+
+     @Size (min = 10, message = "Enter at least 10 characters")
     private String description;
     private LocalDate targetDate;
     private boolean done;
-
-
 
     public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
         super();
