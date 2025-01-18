@@ -1,4 +1,4 @@
-package com.vaibhav_effigo.rest_api;
+package com.vaibhav_effigo.rest_api.helloWorldApi;
 
 public class HelloWorldBean {
 

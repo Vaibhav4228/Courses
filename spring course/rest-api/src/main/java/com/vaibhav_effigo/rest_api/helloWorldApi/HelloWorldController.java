@@ -1,4 +1,4 @@
-package com.vaibhav_effigo.rest_api;
+package com.vaibhav_effigo.rest_api.helloWorldApi;
 
 
 import org.springframework.web.bind.annotation.GetMapping;
