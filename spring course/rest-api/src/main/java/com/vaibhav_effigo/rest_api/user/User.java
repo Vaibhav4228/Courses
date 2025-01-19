@@ -2,10 +2,11 @@ package com.vaibhav_effigo.rest_api.user;
 
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
+import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDate;
 
-public class User {
+public class User  {
 
     private Integer id;
 
