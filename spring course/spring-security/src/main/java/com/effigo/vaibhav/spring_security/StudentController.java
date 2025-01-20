@@ -14,11 +14,12 @@ public class StudentController {
 
     List<Student> students = new ArrayList<>(List.of(
             new Student(1, "vaibhav", "Java"),
-            new Student(2, "sam", "spring-boot")
+            new Student(2, "vvvvsss", "spring-boot")
     ));
 
     @GetMapping("csrf-token")
     public CsrfToken getCsrfToken(HttpServletRequest request) {
+
         return (CsrfToken) request.getAttribute("_csrf");
     }
 
@@ -27,8 +28,9 @@ public class StudentController {
         return students;
     }
 
-    @PostMapping("students")
+    @PostMapping("/students")
     public void addStudent(@RequestBody Student student) {
         students.add(student);
+
     }
 }
