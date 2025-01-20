@@ -1,12 +1,21 @@
 package com.vaibhav_effigo.WebApp.todo;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Size;
 
 import org.hibernate.annotations.BatchSize;
 
 import java.time.LocalDate;
 
-public class Todo {
+@Entity
+ public class Todo {
+    public Todo(){
+
+    }
+    @Id
+    @GeneratedValue
     private int id;
     private String username;
 
@@ -14,7 +23,6 @@ public class Todo {
     private String description;
     private LocalDate targetDate;
     private boolean done;
-
     public Todo(int id, String username, String description, LocalDate targetDate, boolean done) {
         super();
         this.id = id;

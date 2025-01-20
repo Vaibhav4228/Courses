@@ -19,7 +19,6 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SpringSecurityConfiguration {
 
     @Bean
-
     public InMemoryUserDetailsManager createUserDetailsManager() {
 
         UserDetails userDetails1 = createNewUser("vaibhav", "123");
@@ -49,7 +48,6 @@ public class SpringSecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http.authorizeHttpRequests(
                 auth -> auth.anyRequest().authenticated()
-
         );
         http.formLogin(withDefaults());
         http.csrf(csrf -> csrf.disable());

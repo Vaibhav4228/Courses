@@ -4,7 +4,7 @@ package com.vaibhav_effigo.WebApp;
 import com.vaibhav_effigo.WebApp.todo.Todo;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.ModelMap;
+
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -46,9 +46,10 @@ public class TodoService {
         Todo todo = todos.stream().filter(predicate).findFirst().get();
         return todo;
     }
-    public String updateTodo(@Valid Todo todo){
-       deleteById(todo.getId());
+    public void updateTodo(@Valid Todo todo){
+        System.out.println(todo);
+        deleteById(todo.getId());
+
        todos.add(todo);
-     return "";
     }
 }

@@ -1,13 +1,18 @@
 package com.vaibhav_effigo.rest_api.user;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 import org.springframework.hateoas.EntityModel;
 
 import java.time.LocalDate;
 
+@Entity(name = "user_data")
 public class User  {
 
+    @Id
     private Integer id;
 
     @Size(min = 2, message = "name should be atleast 2 char")
