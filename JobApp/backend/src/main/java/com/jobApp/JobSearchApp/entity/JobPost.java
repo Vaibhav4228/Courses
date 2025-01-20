@@ -3,6 +3,7 @@ package com.jobApp.JobSearchApp.entity;
 import jakarta.persistence.*;
 import java.util.List;
 
+
 @Entity
 @Table(name = "job_posts")
 public class JobPost {

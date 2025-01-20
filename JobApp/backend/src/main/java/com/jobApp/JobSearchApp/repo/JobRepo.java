@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface  JobRepo extends JpaRepository<JobPost, Integer> {
 
-    @Query("SELECT jp FROM JobPost jp WHERE jp.postDesc LIKE %?1% OR jp.postProfile LIKE %?1%")
+    @Query("SELECT jp FROM JobPost jp WHERE jp.postDesc LIKE %?1% OR jp.postProfile LIKE %?1%") 
     List<JobPost> searchPost(String keyword);  
      
 }   

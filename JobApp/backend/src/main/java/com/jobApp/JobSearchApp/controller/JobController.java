@@ -17,18 +17,20 @@ public class JobController {
     @Autowired
     JobService service;
 
-    @GetMapping
+    @GetMapping("/")
     public List<JobPost> getAllJobs(){
         return service.getAllJobs();
     }
 
     @GetMapping("/keyword/{keyword}")
-    public List<JobPost> searchKeyword(@PathVariable("keyword") String keyword){
+    public List<JobPost> searchKyeword(@PathVariable("keyword") String keyword){
         return service.search(keyword);
     }
+
     @Transactional
     @GetMapping("/{postId}")
     public JobPost getJob(@PathVariable int postId) {
+
         return service.getJob(postId);
     }
     @Transactional
