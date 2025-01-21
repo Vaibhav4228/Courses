@@ -25,8 +25,6 @@ public class TodoControllerJpa {
         this.todoRepo = todoRepository;
     }
 
-
-
     @RequestMapping("list-todos")
     public String listAllTodos(ModelMap model) {
         String username =  getLoggedInUsername(model);
