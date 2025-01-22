@@ -9,6 +9,7 @@ export default function Navbar() {
             CRUD App By Vaibhav
           </Link>
           <button
+          
             className="navbar-toggler"
             type="button"
             data-bs-toggle="collapse"
