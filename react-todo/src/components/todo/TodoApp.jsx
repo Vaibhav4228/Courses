@@ -8,6 +8,8 @@ import LoginComponent from './LoginComponent';
 import HeaderComponent from './HeaderComponent';
 import FooterComponent from './FooterComponent';
 import './TodoApp.css'; 
+import TodoComponent from './TodoComponent';
+import ErrorComponent from './ErrorComponent';
 
 function AuthenticatedRoute({ children }) {
     const authContext = useAuth();
@@ -22,10 +24,10 @@ function TodoApp() {
         <AuthProvider>
             <BrowserRouter>
                 <div className="d-flex flex-column vh-100">
-                    {/* Header */}
+                   
                     <HeaderComponent />
 
-                    {/* Main Content */}
+                   
                     <main className="flex-grow-1 container my-4">
                         <Routes>
                             <Route path="/" element={<LoginComponent />} />
@@ -46,6 +48,11 @@ function TodoApp() {
                                     </AuthenticatedRoute>
                                 }
                             />
+                              <Route path='/todo/:id' element={
+                            <AuthenticatedRoute>
+                                <TodoComponent /> 
+                            </AuthenticatedRoute>
+                        } />
                             <Route
                                 path="/logout"
                                 element={
@@ -54,16 +61,34 @@ function TodoApp() {
                                     </AuthenticatedRoute>
                                 }
                             />
-                            <Route path="*" element={<Navigate to="/" />} />
+                            <Route path='*' element={<ErrorComponent /> } />
                         </Routes>
                     </main>
 
-                    {/* Footer */}
+                  
                     <FooterComponent />
                 </div>
             </BrowserRouter>
         </AuthProvider>
     );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 export default TodoApp;

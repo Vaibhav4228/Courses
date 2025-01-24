@@ -1,5 +1,6 @@
-package com.effigo.vaibhav.crud_app.dto;
+package com.effigo.vaibhav.crud_app.mappers;
 
+import com.effigo.vaibhav.crud_app.dto.UserDto;
 import com.effigo.vaibhav.crud_app.entity.User;
 
 public class UserMapper {

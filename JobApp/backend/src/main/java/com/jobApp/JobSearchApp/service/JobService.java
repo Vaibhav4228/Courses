@@ -18,7 +18,10 @@ public class JobService {
     }
 
     public void addJob(JobPost jobPost){
+
         repo.save(jobPost);
+
+
     }
 
     public JobPost getJob(int postId){
@@ -26,13 +29,16 @@ public class JobService {
 
     }
     public List<JobPost> search(String keyword){
+
         return repo.searchPost(keyword);
     }
     public void updateJob(JobPost jobPost){
+
         repo.save(jobPost);
     }
 
     public void deleteJob(int postId){
+
         repo.deleteById(postId);
     }
 }

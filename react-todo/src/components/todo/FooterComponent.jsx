@@ -4,10 +4,12 @@ function FooterComponent() {
     return (
         <footer className="footer">
             <div className="container">
-                © 2025 Your Todo App
+                © V Todo App
             </div>
         </footer>
     );
 }
+
+
 
 export default FooterComponent;

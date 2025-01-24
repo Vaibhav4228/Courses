@@ -10,45 +10,46 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/jobPosts")
-@CrossOrigin(origins = "http://localhost:5173/")
+//@RequestMapping("/jobPosts")
+
 public class JobController {
 
     @Autowired
     JobService service;
 
-    @GetMapping("/")
+    @GetMapping("/jobPosts")
     public List<JobPost> getAllJobs(){
+
         return service.getAllJobs();
     }
 
-    @GetMapping("/keyword/{keyword}")
+    @GetMapping("/jobPosts/keyword/{keyword}")
     public List<JobPost> searchKyeword(@PathVariable("keyword") String keyword){
         return service.search(keyword);
     }
 
-    @Transactional
-    @GetMapping("/{postId}")
+
+    @GetMapping("/jobPosts/{postId}")
     public JobPost getJob(@PathVariable int postId) {
 
         return service.getJob(postId);
     }
-    @Transactional
-    @PostMapping
+
+    @PostMapping("/jobPosts")
     public JobPost addJob(@RequestBody JobPost jobPost){
         service.addJob(jobPost);
         return service.getJob(jobPost.getPostId());
     }
 
-    @Transactional
-    @PutMapping
+
+    @PutMapping("/jobPosts/{id}")
     public JobPost updateJob(@RequestBody JobPost jobPost){
         service.updateJob(jobPost);
         return service.getJob(jobPost.getPostId());
     }
 
-    @Transactional
-    @DeleteMapping("/{postId}")
+
+    @DeleteMapping("/jobPosts/{postId}")
     public String deleteJob(@PathVariable  int postId){
         service.deleteJob(postId);
         return "removed job 😎" + postId;

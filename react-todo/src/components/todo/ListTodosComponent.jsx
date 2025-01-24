@@ -3,9 +3,11 @@ import {useNavigate} from 'react-router-dom'
 import { retrieveAllTodosForUsernameApi, deleteTodoApi } from "./api/TodoApiService"
 import { useAuth } from "./security/AuthContext"
 
+
 function ListTodosComponent() {
 
     const today = new Date()
+    
 
     const authContext = useAuth()
 
@@ -42,7 +44,8 @@ function ListTodosComponent() {
                 setMessage(`Delete of todos with id = ${id} successful`)
                 refreshTodos()
             }
-            
+            //1: Display message
+            //2: Update Todos list
         )
         .catch(error => console.log(error))
     }
@@ -101,6 +104,3 @@ function ListTodosComponent() {
 }
 
 export default ListTodosComponent
-
-
-

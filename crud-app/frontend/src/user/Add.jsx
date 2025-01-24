@@ -19,7 +19,7 @@ export default function Add() {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await axios.post("http://localhost:8080/user", user);
+    await axios.post("http://localhost:8085/user", user);
     navigate("/");
   };
 
@@ -32,7 +32,7 @@ export default function Add() {
           <form onSubmit={(e) => onSubmit(e)}>
             <div className="mb-3">
               <label htmlFor="Name" className="form-label">
-                Name
+                Name  
               </label>
               <input
                 type={"text"}

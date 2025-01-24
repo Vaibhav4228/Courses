@@ -2,7 +2,7 @@ package com.effigo.vaibhav.crud_app.controller;
 
 
 import com.effigo.vaibhav.crud_app.dto.UserDto;
-import com.effigo.vaibhav.crud_app.dto.UserMapper;
+import com.effigo.vaibhav.crud_app.mappers.UserMapper;
 import com.effigo.vaibhav.crud_app.entity.User;
 import com.effigo.vaibhav.crud_app.exception.UserNotFoundException;
 import com.effigo.vaibhav.crud_app.repository.UserRepo;
@@ -48,6 +48,7 @@ public class UserController {
             throw new RuntimeException( error);
         }
     }
+
     @PutMapping("/user/{id}")
     public UserDto updateUser(@RequestBody UserDto updateUserDto, @PathVariable Long id){
         try {

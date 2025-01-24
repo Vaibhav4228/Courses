@@ -45,14 +45,17 @@ public class JobPost {
     }
 
     public String getPostProfile() {
+
         return postProfile;
     }
 
     public void setPostProfile(String postProfile) {
+
         this.postProfile = postProfile;
     }
 
     public String getPostDesc() {
+
         return postDesc;
     }
 
@@ -61,6 +64,7 @@ public class JobPost {
     }
 
     public Integer getReqExperience() {
+
         return reqExperience;
     }
 
@@ -73,6 +77,12 @@ public class JobPost {
     }
 
     public void setPostTechStack(List<String> postTechStack) {
+
+
         this.postTechStack = postTechStack;
     }
+
+
+
 }
+
