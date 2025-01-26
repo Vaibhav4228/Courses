@@ -2,14 +2,18 @@ package com.booking.pg.booking.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+
 
 @Data
 @Entity
@@ -21,7 +25,7 @@ public class User implements UserDetails {
     private Long id;
 
     @NotBlank(message = "Email is needed")
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String name;
@@ -29,19 +33,28 @@ public class User implements UserDetails {
     private String phone;
 
     @NotBlank(message = "Password is required")
+    @Column(nullable = false)
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Booking> bookings = new ArrayList<>();
 
+    @Column(nullable = false)
+    private String role;
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role));
+    public String getPassword() {
+        return password;
     }
 
     @Override
     public String getUsername() {
         return email;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority(role));
     }
 
     @Override
@@ -63,4 +76,6 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+
 }

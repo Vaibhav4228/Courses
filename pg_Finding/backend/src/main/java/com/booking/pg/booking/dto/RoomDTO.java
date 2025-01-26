@@ -15,4 +15,5 @@ public class RoomDTO {
     private List<BookingDTO> bookings;
 
 
+
 }

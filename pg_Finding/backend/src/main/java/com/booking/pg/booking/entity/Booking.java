@@ -42,3 +42,15 @@ public class Booking {
                 '}';
     }
 }
+
+/* my notes -->
+* One User can have multiple OrderDetails.
+* In the eager loading strategy, if we load the User data, it will also load up all orders associated with it and will store
+* it in memory.
+
+However, when we enable lazy loading, Hibernate won’t
+* initialize and load OrderDetail data into memory when we pull up a
+* UserLazy, until we make an explicit call to it.
+*
+*  */
+

@@ -13,4 +13,7 @@ public class UserDTO {
     private String Phone;
     private String role;
     private List<BookingDTO> bookings = new ArrayList<>();
+
+
+
 }
