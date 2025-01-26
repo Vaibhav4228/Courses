@@ -1,6 +1,7 @@
 package com.effigo.vaibhav.crud_app.dto;
 
 public class UserDto {
+
     private Long id;
     private String username;
     private String name;
