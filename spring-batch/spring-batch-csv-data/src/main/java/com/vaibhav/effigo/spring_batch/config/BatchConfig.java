@@ -39,6 +39,7 @@ public class BatchConfig {
             ItemReader<Product> reader,
             ItemProcessor<Product, Product> processor,
             ItemWriter<Product> writer
+
     ) {
         return new StepBuilder("jobStep", jobRepository)
                 .<Product, Product>chunk(5, transactionManager)
@@ -59,6 +60,7 @@ public class BatchConfig {
                 .linesToSkip(1)
                 .targetType(Product.class)
                 .build();
+
     }
     
 
@@ -70,7 +72,7 @@ public class BatchConfig {
     @Bean
     public ItemWriter<Product> itemWriter(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Product>()
-                .sql("INSERT INTO PRODUCTS (productId, title, description, price, discount, discounted_price) " +
+                .sql("INSERT INTO PRODUCTS (productId, title, description, price, discounnt, discounted_price) " +
                         "VALUES (:productId, :title, :description, :price, :discount, :discountedPrice)")
                 .dataSource(dataSource)
                 .beanMapped()
