@@ -1,0 +1,28 @@
+* {
+    margin: 0;
+    margin-top: auto;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+.form-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    
+  }
+  
+  .product-form {
+    margin-bottom: 20px;
+  }
+  
+  .product-form .MuiTextField-root {
+    margin-bottom: 15px;
+  }
+  
+  button {
+    margin-top: 20px;
+  }
+  
