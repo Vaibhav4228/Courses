@@ -7,19 +7,19 @@ import org.springframework.batch.item.ItemProcessor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductItemProcessor implements ItemProcessor<Product, DiscountedProduct> {
+public class ProductItemProcessor implements ItemProcessor<DiscountedProduct, DiscountedProduct> {
     @Override
-    public DiscountedProduct process(Product product) {
-        if (product == null) {
+    public DiscountedProduct process(DiscountedProduct discountedProduct) {
+        if (discountedProduct == null) {
             return null;
         }
-        double discountedPrice = DiscountCalculator.applyDiscount(product.getPrice(), product.getCategory());
+        double discountedPrice = DiscountCalculator.applyDiscount(discountedProduct.getOriginalPrice(), discountedProduct.getCategory());
         return new DiscountedProduct(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
+                discountedProduct.getId(),
+                discountedProduct.getName(),
+                discountedProduct.getOriginalPrice(),
                 discountedPrice,
-                product.getCategory()
+                discountedProduct.getCategory()
         );
     }
 }

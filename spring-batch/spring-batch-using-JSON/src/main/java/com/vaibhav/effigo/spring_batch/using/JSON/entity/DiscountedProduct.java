@@ -9,7 +9,7 @@ public class DiscountedProduct {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long originalProductId;
+    
 
     private String name;
 
@@ -22,12 +22,15 @@ public class DiscountedProduct {
     public DiscountedProduct() {
     }
 
-    public DiscountedProduct(Long originalProductId, String name, Double originalPrice, Double discountedPrice, String category) {
-        this.originalProductId = originalProductId;
+    public DiscountedProduct( String name, Double originalPrice, Double discountedPrice, String category) {
+     
         this.name = name;
         this.originalPrice = originalPrice;
         this.discountedPrice = discountedPrice;
         this.category = category;
+    }
+
+    public DiscountedProduct(Long id, String name, Double originalPrice, double discountedPrice, String category) {
     }
 
     public Long getId() {
@@ -38,13 +41,13 @@ public class DiscountedProduct {
         this.id = id;
     }
 
-    public Long getOriginalProductId() {
-        return originalProductId;
-    }
-
-    public void setOriginalProductId(Long originalProductId) {
-        this.originalProductId = originalProductId;
-    }
+//    public Long getOriginalProductId() {
+//        return originalProductId;
+//    }
+//
+//    public void setOriginalProductId(Long originalProductId) {
+//        this.originalProductId = originalProductId;
+//    }
 
     public String getName() {
         return name;

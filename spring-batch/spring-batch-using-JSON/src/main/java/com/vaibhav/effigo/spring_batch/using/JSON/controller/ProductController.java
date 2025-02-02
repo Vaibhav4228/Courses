@@ -1,8 +1,9 @@
 package com.vaibhav.effigo.spring_batch.using.JSON.controller;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaibhav.effigo.spring_batch.using.JSON.entity.DiscountedProduct;
-import com.vaibhav.effigo.spring_batch.using.JSON.entity.Product;
 import com.vaibhav.effigo.spring_batch.using.JSON.repository.DiscountedProductRepository;
 import com.vaibhav.effigo.spring_batch.using.JSON.repository.ProductRepository;
 import org.springframework.batch.core.Job;
@@ -13,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
+@CrossOrigin("http://localhost:5173/")
 public class ProductController {
 
     @Autowired
@@ -32,6 +37,9 @@ public class ProductController {
     @Autowired
     private DiscountedProductRepository discountedProductRepository;
 
+    private static final String FILE_PATH = "src/main/resources/products.json";
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     @PostMapping("/process")
     public ResponseEntity<String> startBatchJob() {
         try {
@@ -45,23 +53,18 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product savedProduct = productRepository.save(product);
-        return ResponseEntity.ok(savedProduct);
-    }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        return ResponseEntity.ok(products);
-    }
+//    @GetMapping("/all")
+//    public ResponseEntity<List<Product>> getAllProducts() {
+//        List<Product> products = productRepository.findAll();
+//        return ResponseEntity.ok(products);
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        Optional<Product> product = productRepository.findById(id);
+        Optional<DiscountedProduct> product = discountedProductRepository.findById(id);
         if (product.isPresent()) {
-            productRepository.deleteById(id);
+            discountedProductRepository.deleteById(id);
             return ResponseEntity.ok("product deleted");
         } else {
             return ResponseEntity.status(404).body("product not found.");
@@ -73,4 +76,32 @@ public class ProductController {
         List<DiscountedProduct> discountedProducts = discountedProductRepository.findAll();
         return ResponseEntity.ok(discountedProducts);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addProduct(@RequestBody DiscountedProduct discountedProduct){
+        List<DiscountedProduct> discountedProducts = readProductsFromFile();
+        discountedProducts.add(discountedProduct);
+        writeProductsToFile(discountedProducts);
+        return ResponseEntity.ok("done");
+    }
+
+    private List<DiscountedProduct> readProductsFromFile() {
+        try {
+            File file = new File(FILE_PATH);
+            if (!file.exists()) return new ArrayList<>();
+            return objectMapper.readValue(file, new TypeReference<List<DiscountedProduct>>() {});
+        } catch (IOException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
+
+    private void writeProductsToFile(List<DiscountedProduct> discountedProducts) {
+        try {
+            objectMapper.writeValue(new File(FILE_PATH), discountedProducts);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

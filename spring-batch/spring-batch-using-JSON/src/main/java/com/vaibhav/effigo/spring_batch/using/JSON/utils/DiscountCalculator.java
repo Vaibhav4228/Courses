@@ -1,8 +1,8 @@
 package com.vaibhav.effigo.spring_batch.using.JSON.utils;
 
 public class DiscountCalculator {
-    public static double applyDiscount(double price, String category) {
-        if (price < 0) {
+    public static double applyDiscount(double originalPrice, String category) {
+        if (originalPrice < 0) {
             throw new IllegalArgumentException("price is not -ve");
         }
 
@@ -21,7 +21,8 @@ public class DiscountCalculator {
                 discount = 0.03;
         }
 
-        return price * (1 - discount);
-    }
-}
+        return originalPrice * (1 - discount);
 
+    }
+
+}

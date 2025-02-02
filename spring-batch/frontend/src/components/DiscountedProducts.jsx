@@ -24,7 +24,7 @@ const DiscountedProducts = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8080/products/delete/${id}`);
-      setProducts(products.filter((product) => product.id !== id)); // Remove from UI
+      setProducts(products.filter((product) => product.id !== id)); 
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -46,7 +46,7 @@ const DiscountedProducts = () => {
               <TableCell>ID</TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Category</TableCell>
-              <TableCell>Original Price</TableCell>
+              <TableCell>Price</TableCell>
               <TableCell>Discounted Price</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
@@ -54,7 +54,7 @@ const DiscountedProducts = () => {
           <TableBody>
             {displayedProducts.map((product) => (
               <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
+                {/* <TableCell>{product.id}</TableCell> */}
                 <TableCell>{product.name}</TableCell>
                 <TableCell>{product.category}</TableCell>
                 <TableCell>₹{product.originalPrice}</TableCell>

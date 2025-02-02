@@ -3,7 +3,7 @@ package com.vaibhav.effigo.spring_batch.using.JSON.config;
 import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemProcessor;
 import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemReader;
 import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemWriter;
-import com.vaibhav.effigo.spring_batch.using.JSON.batchSkip.CustomSkipPolicy;
+
 import com.vaibhav.effigo.spring_batch.using.JSON.entity.Product;
 import com.vaibhav.effigo.spring_batch.using.JSON.entity.DiscountedProduct;
 import org.springframework.batch.core.Job;
@@ -37,12 +37,10 @@ public class BatchConfig {
     @Bean
     public Step jsonProcessingStep(JobRepository jobRepository, PlatformTransactionManager transactionManager) {
         return new StepBuilder("jsonProcessingStep", jobRepository)
-                .<Product, DiscountedProduct>chunk(5, transactionManager)
+                .<DiscountedProduct, DiscountedProduct>chunk(5, transactionManager)
                 .reader(productItemReader.jsonItemReader())
                 .processor(productItemProcessor)
                 .writer(productItemWriter)
-                .faultTolerant()
-                .skipPolicy(new CustomSkipPolicy())
                 .build();
     }
 
