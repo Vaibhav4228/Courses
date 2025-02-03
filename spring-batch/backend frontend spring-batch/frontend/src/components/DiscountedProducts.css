@@ -1,0 +1,195 @@
+
+@keyframes flipIn {
+  0% {
+    transform: rotateX(-90deg);
+    opacity: 0;
+  }
+  50% {
+    transform: rotateX(30deg);
+    opacity: 0.5;
+  }
+  100% {
+    transform: rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+
+.discounted-heading {
+  display: inline-block;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #fff;
+  animation: flipIn 1.5s ease-out;
+}
+
+
+.form-container {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  padding: 3em;
+  border-radius: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  max-width: 500px;
+}
+
+.form-container:hover {
+  box-shadow: 25px 25px 50px -8px rgba(0, 0, 0, 0.3);
+  transform: translate(-50%, -50%) scale(1.02);
+}
+
+
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5em;
+}
+
+
+.form-input {
+  background: transparent;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5000px;
+  backdrop-filter: blur(5px);
+  box-shadow: 4px 4px 60px rgba(0, 0, 0, 0.2);
+  color: #fff;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  padding: 1em;
+}
+
+
+.form-input:hover {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+.form-input:focus {
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 4px 4px 60px 8px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.form-button {
+  margin-top: 10px;
+  width: 100%;
+  font-size: 1rem;
+  padding: 1em;
+  background-color: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.form-button:hover {
+  transform: scale(1.05);
+  background-color: #1565c0;
+}
+
+::placeholder {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  color: #fff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+}
+
+
+.discounted-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  box-shadow: 20px 20px 40px -6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.discounted-container:hover {
+  box-shadow: 25px 25px 50px -8px rgba(0, 0, 0, 0.3);
+  transform: scale(1.02);
+}
+
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: transparent;  
+  transition: all 0.3s ease-in-out;
+}
+
+
+th, td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+th {
+  background-color: rgba(255, 255, 255, 0.1); 
+  font-weight: 500;
+}
+
+
+@keyframes fadeInSlideUp {
+  0% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+tr {
+  animation: fadeInSlideUp 0.5s ease-out;
+}
+
+
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5000px;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+.pagination button:hover {
+  background: rgba(255, 255, 255, 0.5);
+  transform: scale(1.05);
+}

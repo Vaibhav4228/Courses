@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  
+  postgres_db:
+    image: postgres:14
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: vaibhav123
+      POSTGRES_DB: batch
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+ 
+  backend:
+    image: springboot-backend
+    container_name: springboot-backend
+    build: ./backend  
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/batch
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: vaibhav123
+      SPRING_BATCH_JOB_ENABLED: "false"
+    depends_on:
+      - postgres_db
+    networks:
+      - app-network
+
+  frontend:
+    build: ./frontend  
+    container_name: react-frontend
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend 
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
+
