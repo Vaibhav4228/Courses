@@ -15,7 +15,7 @@ function UpdateUser() {
   });
 
   useEffect(() => {
-    fetchUserDataById(userId); // Pass the userId to fetchUserDataById
+    fetchUserDataById(userId); 
   }, [userId]); 
 
   const fetchUserDataById = async (userId) => {
@@ -46,7 +46,7 @@ function UpdateUser() {
         const token = localStorage.getItem('token');
         const res = await UserService.updateUser(userId, userData, token);
         console.log(res)
-        // Redirect to profile page or display a success message
+     
         navigate("/admin/user-management")
       }
 

@@ -10,6 +10,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     @Autowired
     private UsersManagementService usersManagementService;
@@ -59,8 +60,5 @@ public class UserController {
         return ResponseEntity.ok(usersManagementService.deleteUser(userId));
     }
 
-    @PatchMapping("/admin/patch/{userId}")
-    public ResponseEntity<ReqRes> patchUser(@PathVariable Integer userId, @RequestBody OurUsers reqres) {
-        return ResponseEntity.ok(usersManagementService.patchUser(userId, reqres));
-    }
+
 }

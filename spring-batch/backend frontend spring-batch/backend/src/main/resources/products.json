@@ -1,2 +1,1 @@
-[{"id":55,"name":"redmi","originalPrice":500.0,"discountedPrice":null,"category":"electronics"},{"id":55,"name":"v-mobile","originalPrice":5500.0,"discountedPrice":null,"category":"electronics"},{"id":465,"name":"Product 50","originalPrice":100.0,"discountedPrice":null,"category":"electronics"},{"id":55,"name":"mobile","originalPrice":50000.0,"discountedPrice":null,
-  "category":"electronics"},{"id":88,"name":"samsung ","originalPrice":85555.0,"discountedPrice":null,"category":"electronics"}]
+[{"id":50,"name":"assus","price":50000.0,"category":"Electronics"}]

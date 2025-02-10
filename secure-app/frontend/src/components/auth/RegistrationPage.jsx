@@ -21,12 +21,11 @@ function RegistrationPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            // Call the register method from UserService
+          
 
             const token = localStorage.getItem('token');
             await UserService.register(formData, token);
 
-            // Clear the form fields after successful registration
             setFormData({
                 name: '',
                 email: '',

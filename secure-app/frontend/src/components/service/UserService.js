@@ -1,7 +1,7 @@
 import axios from "axios";
 
 class UserService{
-    static BASE_URL = "http://localhost:1000"
+    static BASE_URL = "http://localhost:8080"
 
     static async login(email, password){
         try{
@@ -12,6 +12,7 @@ class UserService{
             throw err;
         }
     }
+    
 
     static async register(userData, token){
         try{
@@ -113,6 +114,7 @@ class UserService{
     static adminOnly(){
         return this.isAuthenticated() && this.isAdmin();
     }
+    
 
 }
 

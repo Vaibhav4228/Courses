@@ -1,11 +1,5 @@
 package com.vaibhav.effigo.spring_batch.using.JSON.config;
 
-import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemProcessor;
-import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemReader;
-import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemWriter;
-
-import com.vaibhav.effigo.spring_batch.using.JSON.entity.Product;
-import com.vaibhav.effigo.spring_batch.using.JSON.entity.DiscountedProduct;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -13,13 +7,15 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
-import org.springframework.batch.item.ItemProcessor;
-import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
+
+import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemProcessor;
+import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemReader;
+import com.vaibhav.effigo.spring_batch.using.JSON.batch.ProductItemWriter;
+import com.vaibhav.effigo.spring_batch.using.JSON.entity.DiscountedProduct;
 
 @Configuration
 @EnableBatchProcessing
@@ -51,4 +47,8 @@ public class BatchConfig {
                 .start(jsonProcessingStep)
                 .build();
     }
+
+
+
 }
+

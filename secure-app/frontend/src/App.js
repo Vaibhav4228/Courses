@@ -10,9 +10,6 @@ import UserManagementPage from './components/userpage/UserManagementPage';
 import UpdateUser from './components/userpage/UpdateUser';
 import FooterComponent from './components/common/Footer';
 
-
-
-
 function App() {
 
   return (
@@ -25,7 +22,7 @@ function App() {
             <Route exact path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
 
-            {/* Check if user is authenticated and admin before rendering admin-only routes */}
+            
             {UserService.adminOnly() && (
               <>
                 <Route path="/register" element={<RegistrationPage />} />
@@ -40,6 +37,7 @@ function App() {
       </div>
     </BrowserRouter>
   );
+
 }
 
 export default App;

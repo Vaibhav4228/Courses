@@ -49,6 +49,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         return userRepo.save(user);
     }
+
     public JwtAuthenticationResponse signIn(SigninRequest signinRequest){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signinRequest.getEmail(), signinRequest.getPassword()));
 
@@ -65,6 +66,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return jwtAuthenticationResponse;
         }
 
+        
         public JwtAuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest){
         String userEmail = jwtService.extractUserName(refreshTokenRequest.getToken());
         User user = userRepo.findByEmail(userEmail).orElseThrow();

@@ -208,22 +208,6 @@ public class UsersManagementService {
         return reqRes;
 
     }
-    public ReqRes patchUser(Integer userId, OurUsers partialUpdate) {
-        OurUsers existingUser = usersRepo.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        if (partialUpdate.getUsername() != null) {
-            existingUser.setName(partialUpdate.getUsername());
-        }
-        if (partialUpdate.getEmail() != null) {
-            existingUser.setEmail(partialUpdate.getEmail());
-        }
-        if (partialUpdate.getPassword() != null) {
-            existingUser.setPassword(passwordEncoder.encode(partialUpdate.getPassword()));
-        }
-
-        usersRepo.save(existingUser);
-        return new ReqRes("User updated successfully", 200);
-    }
 
 }

@@ -4,6 +4,7 @@ package com.vaibhav.effigo.spring_batch.using.JSON.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaibhav.effigo.spring_batch.using.JSON.entity.DiscountedProduct;
+import com.vaibhav.effigo.spring_batch.using.JSON.entity.Product;
 import com.vaibhav.effigo.spring_batch.using.JSON.repository.DiscountedProductRepository;
 import com.vaibhav.effigo.spring_batch.using.JSON.repository.ProductRepository;
 import org.springframework.batch.core.Job;
@@ -78,30 +79,31 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody DiscountedProduct discountedProduct){
-        List<DiscountedProduct> discountedProducts = readProductsFromFile();
-        discountedProducts.add(discountedProduct);
-        writeProductsToFile(discountedProducts);
+    public ResponseEntity<String> addProduct(@RequestBody Product product){
+        List<Product> products = readProductsFromFile();
+        products.add(product);
+        writeProductsToFile(products);
         return ResponseEntity.ok("done");
     }
 
-    private List<DiscountedProduct> readProductsFromFile() {
+    private List<Product> readProductsFromFile() {
         try {
             File file = new File(FILE_PATH);
             if (!file.exists()) return new ArrayList<>();
-            return objectMapper.readValue(file, new TypeReference<List<DiscountedProduct>>() {});
+            return objectMapper.readValue(file, new TypeReference<List<Product>>() {});
         } catch (IOException e) {
             e.printStackTrace();
             return new ArrayList<>();
         }
     }
 
-    private void writeProductsToFile(List<DiscountedProduct> discountedProducts) {
+    private void writeProductsToFile(List<Product> products) {
         try {
-            objectMapper.writeValue(new File(FILE_PATH), discountedProducts);
+            objectMapper.writeValue(new File(FILE_PATH), products);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
 }

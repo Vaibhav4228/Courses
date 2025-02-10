@@ -30,7 +30,7 @@ const ProductForm = () => {
     }
 
     try {
-      await axios.post("http://localhost:8080/products/add", product, {
+      await axios.post("http://localhost:9000/products/add", product, {
         headers: { "Content-Type": "application/json" },
       });
 
@@ -46,7 +46,7 @@ const ProductForm = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:8080/products/process");
+      await axios.post("http://localhost:9000/products/process");
 
       setTimeout(() => {
         setLoading(false);

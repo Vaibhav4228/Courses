@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
 
-
 function LoginPage(){
 const [email, setEmail] = useState('')
 const [password, setPassword] = useState('')
@@ -50,6 +49,7 @@ const handleSubmit = async (e) => {
             </form>
         </div>
     )
+
 
 }
 

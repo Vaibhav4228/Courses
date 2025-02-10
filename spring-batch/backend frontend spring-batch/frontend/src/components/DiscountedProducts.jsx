@@ -15,7 +15,7 @@ const DiscountedProducts = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/products/discounted");
+      const response = await axios.get("http://localhost:9000/products/discounted");
       if (Array.isArray(response.data)) {
         setProducts(response.data);
       } else {
@@ -30,7 +30,7 @@ const DiscountedProducts = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/products/delete/${id}`);
+      await axios.delete(`http://localhost:9000/products/delete/${id}`);
       setProducts(products.filter((product) => product.id !== id)); 
     } catch (error) {
       console.error("Error deleting product:", error);

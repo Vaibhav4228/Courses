@@ -15,4 +15,6 @@ public class OurUserDetailsService  implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return usersRepo.findByEmail(username).orElseThrow();
     }
+
+
 }

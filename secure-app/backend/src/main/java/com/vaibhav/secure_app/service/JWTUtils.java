@@ -32,6 +32,7 @@ public class JWTUtils {
                 .signWith(Key)
                 .compact();
     }
+
     public  String generateRefreshToken(HashMap<String, Object> claims, UserDetails userDetails){
         return Jwts.builder()
                 .claims(claims)
@@ -57,5 +58,6 @@ public class JWTUtils {
 
     public  boolean isTokenExpired(String token){
         return extractClaims(token, Claims::getExpiration).before(new Date());
+
     }
 }

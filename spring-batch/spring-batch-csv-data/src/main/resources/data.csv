@@ -38,3 +38,26 @@ productId, title, description, price, discount
 37,Product 37,This is product 89,3800,36
 38,Product 36,This is product 96,3800,36
 39,Product 36,This is product 102,3800,36
+40,Product 27,This is product 53,3000,28
+41,Product 28,This is product 55,3100,29
+42,Product 29,This is product 57,3200,30
+43,Product 30,This is product 59,3300,31
+44,Product 31,This is product 61,3400,32
+45,Product 32,This is product 63,3500,33
+46,Product 33,This is product 65,3600,34
+47,Product 34,This is product 67,3700,35
+48,Product 35,This is product 69,3800,36
+49,Product 36,This is product 69,3800,36
+50,Product 37,This is product 89,3800,36
+51,Product 36,This is product 96,3800,36
+52,Product 36,This is product 102,3800,36
+55,Wireless Earbuds,Bluetooth 5.0 wireless earbuds with noise cancellation,49.99,10
+56,Smartwatch,Fitness tracking smartwatch with heart rate monitor,99.99,15
+57,Gaming Mouse,Ergonomic gaming mouse with customizable buttons,39.99,5
+58,Mechanical Keyboard,RGB backlit mechanical keyboard with blue switches,79.99,20
+59,Portable Speaker,Wireless Bluetooth speaker with deep bass,59.99,10
+60,Smartphone Stand,Adjustable aluminum stand for phones and tablets,19.99,5
+61,Laptop Cooling Pad,Cooling pad with dual fans for heat dissipation,29.99,10
+62,Wireless Charger,Fast wireless charging pad for multiple devices,25.99,15
+63,Noise Cancelling Headphones,Over-ear headphones with ANC and deep bass,129.99,20
+64,Power Bank,10000mAh portable power bank with fast charging,39.99,10

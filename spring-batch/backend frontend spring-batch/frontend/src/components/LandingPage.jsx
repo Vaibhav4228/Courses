@@ -9,12 +9,13 @@ const LandingPage = () => {
   return (
     <div className="landing-container">
       <div className="landing-content">
-        {/* Typewriter Heading */}
+      
         <motion.h1
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
         >
+          
           <Typewriter
             options={{
               strings: ["Welcome to Discounted Spring-Batch App"],
@@ -24,7 +25,7 @@ const LandingPage = () => {
           />
         </motion.h1>
 
-        {/* Animated Paragraph */}
+       
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -33,7 +34,6 @@ const LandingPage = () => {
           Manage your products with ease and efficiency.
         </motion.p>
 
-        {/* Animated Button */}
         <motion.button
           onClick={() => navigate("/form")}
           initial={{ opacity: 0, scale: 0.8 }}

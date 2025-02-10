@@ -16,6 +16,7 @@ public class ProductItemWriter implements ItemWriter<DiscountedProduct> {
     @Override
     public void write(Chunk<? extends DiscountedProduct> items) throws Exception {
         discountedProductRepository.saveAll(items);
+        
     }
 
 }
