@@ -42,7 +42,6 @@ public class PaymentService {
         ValidationResult validationResult = validatePayment(paymentInternalDTO);
 
         if (!validationResult.errors.isEmpty()) {
-
             FailedPaymentsEntity failedRecord = new FailedPaymentsEntity();
             failedRecord.setErrorMessage(validationResult.mainError);
             failedRecord.setRawData(validationResult.failedFields.toString());
@@ -50,7 +49,6 @@ public class PaymentService {
             throw new RuntimeException(validationResult.mainError);
         }
 
-        // Convert DTO to PayloadEntity
         PayloadEntity payloadEntity = paymentMapper.toPayloadEntity(paymentInternalDTO);
         payloadEntity.setPayType(paymentInternalDTO.getPaymentHeaders().getPay_type().toUpperCase());
 
@@ -67,6 +65,21 @@ public class PaymentService {
         return paymentMapperRepo.save(payloadEntity);
     }
 
+    public void deletePaymentById(Long id){
+        if(!paymentMapperRepo.existsById(id)){
+            throw new RuntimeException("Payment with id " + id + "not found");
+        }
+        paymentMapperRepo.deleteById(id);
+    }
+
+    public List<PayloadEntity> getAllSuccessfulPayments() {
+        return paymentMapperRepo.findAll();
+    }
+    public List<FailedPaymentsEntity> getAllFailedPayments(){
+        return failedPaymentsRepo.findAll();
+    }
+
+
 
     private ValidationResult validatePayment(PaymentInternalDTO paymentInternalDTO) {
         ValidationResult validationResult = new ValidationResult();
@@ -74,6 +87,22 @@ public class PaymentService {
         if (!isValidText(paymentInternalDTO.getPaymentHeaders().getPaymentName())) {
             validationResult.errors.add("payment error");
             validationResult.failedFields.append("paymentName, ");
+        }
+        if (!isValidText(paymentInternalDTO.getPaymentHeaders().getPay_id())) {
+            validationResult.errors.add("payment error");
+            validationResult.failedFields.append("payId, ");
+        }
+        if (!isValidText(paymentInternalDTO.getPaymentHeaders().getPay_type())) {
+            validationResult.errors.add("payment error");
+            validationResult.failedFields.append("payType, ");
+        }
+        if (!PatTypeEnum.isValid(paymentInternalDTO.getPaymentHeaders().getPay_type())) {
+            validationResult.errors.add("payment error");
+            validationResult.failedFields.append("Invalid payType, ");
+        }
+        if (!isValidText(paymentInternalDTO.getPaymentReqDetails().getPaymentReceiverName())) {
+            validationResult.errors.add("payment error");
+            validationResult.failedFields.append("paymentReceiverName, ");
         }
         if (!isValidText(paymentInternalDTO.getPaymentReqDetails().getCompanyCode())) {
             validationResult.errors.add("payment error");
@@ -83,8 +112,22 @@ public class PaymentService {
             validationResult.errors.add("payment error");
             validationResult.failedFields.append("plant, ");
         }
+        if (!isValidText(paymentInternalDTO.getPaymentReqDetails().getAmount())) {
+            validationResult.errors.add("payment error");
+            validationResult.failedFields.append("amount cannot be null, ");
+        } else {
+            try {
+                double amount = Double.parseDouble(paymentInternalDTO.getPaymentReqDetails().getAmount());
+                if (amount < 10000 && "BANK_TRANSACTION".equalsIgnoreCase(paymentInternalDTO.getPaymentHeaders().getPay_type())) {
+                    validationResult.errors.add("payment error");
+                    validationResult.failedFields.append("lowAmount for BANK_TRANSACTION, ");
+                }
+            } catch (NumberFormatException e) {
+                validationResult.errors.add("payment error");
+                validationResult.failedFields.append("amountFormat, ");
+            }
+        }
 
-        // Invoice Date Validation
         if (paymentInternalDTO.getInvoices() == null || paymentInternalDTO.getInvoices().isEmpty()) {
             validationResult.errors.add("date error");
             validationResult.failedFields.append("invoiceDate, ");
@@ -100,26 +143,14 @@ public class PaymentService {
                     validationResult.errors.add("date error");
                     validationResult.failedFields.append("Past date for invoice type " + invoice.getInvoice_type() + ", ");
                 }
-            }
-        }
-
-        String payTypeStr = paymentInternalDTO.getPaymentHeaders().getPay_type();
-        if (!PatTypeEnum.isValid(payTypeStr)) {
-            validationResult.errors.add("payment error");
-            validationResult.failedFields.append("payType, ");
-        }
-
-        String amountStr = paymentInternalDTO.getPaymentReqDetails().getAmount();
-        if (amountStr != null) {
-            try {
-                double amount = Double.parseDouble(amountStr);
-                if (amount < 10000) {
-                    validationResult.errors.add("payment error");
-                    validationResult.failedFields.append("lowAmount, ");
+                if (!isValidText(invoice.getInvoice_type())) {
+                    validationResult.errors.add("invoice error");
+                    validationResult.failedFields.append("invoiceType, ");
                 }
-            } catch (NumberFormatException e) {
-                validationResult.errors.add("payment error");
-                validationResult.failedFields.append("amountFormat, ");
+                if (!isValidText(invoice.getInvoice_amount())) {
+                    validationResult.errors.add("invoice error");
+                    validationResult.failedFields.append("invoiceAmount, ");
+                }
             }
         }
 
@@ -130,11 +161,9 @@ public class PaymentService {
         return validationResult;
     }
 
-
     private boolean isValidText(String value) {
         return value != null && !value.trim().isEmpty();
     }
-
 
     private boolean isValidDateFormat(String dateStr) {
         try {
@@ -145,7 +174,6 @@ public class PaymentService {
         }
     }
 
-
     private boolean isValidFutureDate(String dateStr) {
         try {
             LocalDate parsedDate = LocalDate.parse(dateStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
@@ -155,13 +183,9 @@ public class PaymentService {
         }
     }
 
-
     private static class ValidationResult {
         String mainError;
         List<String> errors = new ArrayList<>();
         StringBuilder failedFields = new StringBuilder();
     }
-
-
-
 }

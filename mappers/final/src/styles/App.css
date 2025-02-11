@@ -1,0 +1,18 @@
+/* .app-container {
+  display: flex;
+  height: 100vh;
+  background-color: #e5e5f7;
+  opacity: 0.8;
+  background-image: radial-gradient(circle at center center, #444cf7, #e5e5f7),
+    repeating-radial-gradient(circle at center center, #444cf7, #444cf7, 10px, transparent 20px, transparent 10px);
+  background-blend-mode: multiply;
+}
+
+.content {
+  flex-grow: 1;
+  padding: 20px;
+  background: #076585;
+  background: -webkit-linear-gradient(to right, #fff, #076585);
+  background: linear-gradient(to right, #fff, #076585);
+  overflow-y: auto;
+} */

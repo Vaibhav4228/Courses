@@ -1,0 +1,68 @@
+.save-container {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+
+  .edit-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .edit-section .MuiTextField-root {
+    flex: 1 1 calc(50% - 10px);
+    min-width: 280px;
+  }
+  
+  /* Table styles */
+  .table-container {
+    margin-top: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Buttons */
+  .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .save-btn,
+  .success-btn,
+  .failed-btn {
+    margin: 15px 10px;
+    width: 100%;
+    font-weight: bold;
+  }
+  
+  /* Modal Styling */
+  .MuiDialog-paper {
+    padding: 25px;
+    min-width: 400px;
+  }
+  
+  /* Spacing inside the modal */
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px;
+  }
+  
+  .modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
+  }
