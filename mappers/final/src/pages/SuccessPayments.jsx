@@ -33,7 +33,7 @@ const SuccessPayments = () => {
   useEffect(() => {
     const fetchPayments = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/payment/Successfull-Payment");
+        const response = await axios.get("http://localhost:9500/payment/Successfull-Payment");
         setPayments(response.data);
         setLoading(false);
       } catch (error) {
@@ -47,7 +47,7 @@ const SuccessPayments = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:000/payment/delete/${id}`);
+      await axios.delete(`http://localhost:9500/payment/delete/${id}`);
       setPayments((prev) => prev.filter((payment) => payment.id !== id));
       toast.success("Payment deleted successfully!");
     } catch (error) {
@@ -149,41 +149,48 @@ const SuccessPayments = () => {
         className="pagination"
       />
 
-      {/* Invoice Modal */}
-      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <DialogTitle>Invoice Details</DialogTitle>
-        <DialogContent className="modal-content">
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Invoice Type</TableCell>
-                <TableCell>Invoice Date</TableCell>
-                <TableCell>Invoice Amount</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {selectedInvoices.length > 0 ? (
-                selectedInvoices.map((invoice, index) => (
-                  <TableRow key={index}>
-                    <TableCell>{invoice.invoiceType}</TableCell>
-                    <TableCell>{invoice.invoiceDate}</TableCell>
-                    <TableCell>{invoice.invoiceAmount}</TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={3} align="center">
-                    No invoices available.
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
+      
+<Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+  <DialogTitle>Invoice Details</DialogTitle>
+  <DialogContent className="modal-content">
+    <Table>
+      <TableHead>
+        <TableRow>
+          <TableCell>Invoice Type</TableCell>
+          <TableCell>Invoice Date</TableCell>
+          <TableCell>Invoice Amount</TableCell>
+        </TableRow>
+      </TableHead>
+      <TableBody>
+        {selectedInvoices.length > 0 ? (
+          selectedInvoices.map((invoice, index) => (
+            <TableRow key={index}>
+              <TableCell>{invoice.invoiceType}</TableCell>
+              <TableCell>
+                {new Intl.DateTimeFormat("en-GB", {
+                  year: "numeric",
+                  month: "2-digit",
+                  day: "2-digit",
+                }).format(new Date(invoice.invoiceDate))}
+              </TableCell>
+              <TableCell>{invoice.invoiceAmount}</TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={3} align="center">
+              No invoices available.
+            </TableCell>
+          </TableRow>
+        )}
+      </TableBody>
+    </Table>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+  </DialogActions>
+</Dialog>
+
     </div>
   );
 };

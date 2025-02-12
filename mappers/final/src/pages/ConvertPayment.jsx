@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { TextField, Button, CircularProgress } from "@mui/material";
-import { motion } from "framer-motion";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { debounce, throttle } from "lodash";
 import "../styles/ConvertPayment.css";
 
 const ConvertPayment = () => {
@@ -12,19 +12,30 @@ const ConvertPayment = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleConvert = async () => {
-    try {
-      setLoading(true);
-      const jsonPayload = JSON.parse(inputData);
-      const response = await axios.post("http://localhost:9000/payment/change", jsonPayload);
-      setConvertedData(response.data);
-      toast.success("Conversion successful!");
-    } catch (error) {
-      toast.error("Invalid JSON or API error");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const debouncedInputChange = useCallback(
+    debounce((value) => {
+      setInputData(value);
+    }, 500), 
+    []
+  );
+
+  
+  const throttledConvert = useCallback(
+    throttle(async () => {
+      try {
+        setLoading(true);
+        const jsonPayload = JSON.parse(inputData);
+        const response = await axios.post("http://localhost:9500/payment/change", jsonPayload);
+        setConvertedData(response.data);
+        toast.success("Conversion successful!");
+      } catch (error) {
+        toast.error("Invalid JSON or API error");
+      } finally {
+        setLoading(false);
+      }
+    }, 3000), 
+    [inputData]
+  );
 
   const handleProceedToSave = () => {
     navigate("/save-payment", { state: { convertedData } });
@@ -32,23 +43,21 @@ const ConvertPayment = () => {
 
   return (
     <div className="convert-container">
-      <motion.h2 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
-        Convert Payment Data
-      </motion.h2>
+      <h2>Convert Payment Data</h2>
       <TextField
         label="Enter Payload Data"
         multiline
         rows={8}
         variant="outlined"
         fullWidth
-        value={inputData}
-        onChange={(e) => setInputData(e.target.value)}
+        defaultValue={inputData}
+        onChange={(e) => debouncedInputChange(e.target.value)}
         className="input-box"
       />
       <Button
         variant="contained"
         color="primary"
-        onClick={handleConvert}
+        onClick={throttledConvert}
         disabled={loading}
         className="convert-button"
       >
@@ -56,14 +65,9 @@ const ConvertPayment = () => {
       </Button>
       {convertedData && (
         <>
-          <motion.pre
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1 }}
-            className="output-box"
-          >
-            {JSON.stringify(convertedData, null, 2)}
-          </motion.pre>
+          <pre className="output-box">
+            {JSON.stringify(convertedData, null, 2)}   
+          </pre>
           <Button
             variant="contained"
             color="success"

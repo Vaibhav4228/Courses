@@ -18,14 +18,14 @@
   
   .add-invoice-button {
     margin-bottom: 15px;
-    background: linear-gradient(135deg, #ff6e7f, #bfe9ff);
+    background: linear-gradient(135deg, #007bff, #0056b3); 
     color: white;
   }
   
   .convert-button {
     width: 100%;
     margin-top: 10px;
-    background: linear-gradient(135deg, #ff6e7f, #bfe9ff);
+    background: linear-gradient(135deg, #007bff, #0056b3); 
     color: white;
     font-weight: bold;
   }

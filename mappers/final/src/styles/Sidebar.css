@@ -3,10 +3,10 @@
   left: 0;
   top: 0;
   height: 100vh;
-  background-image: linear-gradient(135deg, #ff6e7f, #bfe9ff);
+  background: linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
   color: white;
   padding-top: 20px;
-  box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 3px 0px 10px rgba(0, 0, 0, 0.2);
   overflow: hidden;
   transition: width 0.3s ease-in-out;
   display: flex;
@@ -59,14 +59,13 @@
 }
 
 .sidebar.closed .nav-links a {
-  justify-content: center; /* Center icons when collapsed */
+  justify-content: center;
 }
 
 .sidebar.closed .nav-links a span {
   display: none;
 }
 
-/* Ensure icons remain centered */
 .nav-item {
   display: flex;
   justify-content: center;
@@ -76,6 +75,20 @@
 
 .nav-icon {
   font-size: 24px;
+}
+
+/* Add animation for sidebar opening */
+.sidebar.open {
+  animation: sidebarSlide 0.3s ease-in-out;
+}
+
+@keyframes sidebarSlide {
+  from {
+    width: 60px;
+  }
+  to {
+    width: 250px;
+  }
 }
 
 /* Responsive adjustments */

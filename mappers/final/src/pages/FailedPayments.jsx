@@ -11,6 +11,10 @@ import {
   Button,
   Pagination,
   CircularProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions
 } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -21,11 +25,13 @@ const FailedPayments = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const paymentsPerPage = 20;
+  const [selectedRawData, setSelectedRawData] = useState(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   useEffect(() => {
     const fetchFailedPayments = async () => {
       try {
-        const response = await axios.get("http://localhost:9000/payment/Failed-Payments");
+        const response = await axios.get("http://localhost:9500/payment/Failed-Payments");
         setFailedPayments(response.data);
         setLoading(false);
       } catch (error) {
@@ -39,12 +45,17 @@ const FailedPayments = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:6000/payment/delete/${id}`);
+      await axios.delete(`http://localhost:9500/payment/delete/${id}`);
       setFailedPayments((prev) => prev.filter((payment) => payment.id !== id));
       toast.success("Failed payment deleted successfully!");
     } catch (error) {
       toast.error("Error deleting failed payment.");
     }
+  };
+
+  const handleViewRawData = (rawData) => {
+    setSelectedRawData(rawData);
+    setIsDialogOpen(true);
   };
 
   const lastPage = currentPage * paymentsPerPage;
@@ -77,10 +88,7 @@ const FailedPayments = () => {
                     <TableCell>{payment.id}</TableCell>
                     <TableCell>{payment.errorMessage}</TableCell>
                     <TableCell>
-                      <Button
-                        variant="contained"
-                        onClick={() => toast.info(JSON.stringify(payment.rawData, null, 2))}
-                      >
+                      <Button variant="contained" onClick={() => handleViewRawData(payment.rawData)}>
                         View Raw Data
                       </Button>
                     </TableCell>
@@ -109,6 +117,19 @@ const FailedPayments = () => {
         onChange={(event, value) => setCurrentPage(value)}
         className="pagination"
       />
+
+      {/* Dialog for Raw Data */}
+      <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} fullWidth maxWidth="md">
+        <DialogTitle>Raw Data</DialogTitle>
+        <DialogContent>
+          <pre style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}>
+            {selectedRawData ? JSON.stringify(selectedRawData, null, 2) : "No raw data available"}
+          </pre>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setIsDialogOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

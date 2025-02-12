@@ -1,6 +1,6 @@
 .failed-container {
-  margin-left: 260px; /* Push content to avoid sidebar overlap */
-  width: calc(100% - 260px); /* Adjust width dynamically */
+  margin-left: 260px; 
+  width: calc(100% - 260px); 
   padding: 20px;
   text-align: center;
   background: rgba(255, 255, 255, 0.3);

@@ -14,7 +14,6 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
-  Pagination,
   CircularProgress,
 } from "@mui/material";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -115,7 +114,7 @@ const SavePayment = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:9000/payment/Saving-DB", paymentData);
+      await axios.post("http://localhost:9500/payment/Saving-DB", paymentData);
       toast.success("Payment saved successfully!");
       navigate("/successful-payments");
     } catch (error) {
@@ -179,7 +178,7 @@ const SavePayment = () => {
         </>
       )}
 
-<Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
   <DialogTitle>Edit Invoice</DialogTitle>
   <DialogContent className="modal-content">
     <TextField label="Invoice Type" fullWidth value={editInvoice?.invoice_type} onChange={(e) => handleInvoiceChange(e, "invoice_type")} />
