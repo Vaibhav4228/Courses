@@ -18,8 +18,6 @@ import {
 } from "@mui/material";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { motion } from "framer-motion";
-import Typewriter from "typewriter-effect";
 import "../styles/SuccessPayments.css";
 
 const SuccessPayments = () => {
@@ -28,7 +26,12 @@ const SuccessPayments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const paymentsPerPage = 20;
   const [selectedInvoices, setSelectedInvoices] = useState([]);
+  const [invoicePage, setInvoicePage] = useState(1);
+  const invoicesPerPage = 5;
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [grandTotal, setGrandTotal] = useState(null);
+  const [currentPayloadId, setCurrentPayloadId] = useState(null);
+  const [showGrandTotal, setShowGrandTotal] = useState(false);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -41,7 +44,6 @@ const SuccessPayments = () => {
         setLoading(false);
       }
     };
-
     fetchPayments();
   }, []);
 
@@ -55,33 +57,62 @@ const SuccessPayments = () => {
     }
   };
 
-  const handleViewInvoices = (invoices) => {
+  const handleViewInvoices = (invoices, payloadId) => {
     setSelectedInvoices(invoices);
+    setCurrentPayloadId(payloadId);
+    setGrandTotal(null);
+    setShowGrandTotal(false);
+    setInvoicePage(1);
     setIsModalOpen(true);
   };
 
-  const lastPage = currentPage * paymentsPerPage;
-  const firstPage = lastPage - paymentsPerPage;
-  const currentPayments = payments.slice(firstPage, lastPage);
+  const handleCalculateGrandTotal = async () => {
+    if (!currentPayloadId) {
+      toast.error("No Payload ID found!");
+      return;
+    }
+
+    try {
+      await axios.post(`http://localhost:9500/batch/calculate-grand-total/${currentPayloadId}`);
+      toast.success("Batch job started!");
+
+      setTimeout(async () => {
+        const totalResponse = await axios.get(`http://localhost:9500/batch/latest-grand-total/${currentPayloadId}`);
+        setGrandTotal(parseFloat(totalResponse.data).toFixed(3));
+      }, 3000);
+    } catch (error) {
+      toast.error("Error starting batch job.");
+    }
+  };
+
+  const handleShowGrandTotal = async () => {
+    if (!currentPayloadId) {
+      toast.error("No Payload ID found!");
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:9500/batch/latest-grand-total/${currentPayloadId}`);
+      setGrandTotal(parseFloat(response.data).toFixed(3));
+      setShowGrandTotal(true);
+    } catch (error) {
+      toast.error("Error fetching grand total.");
+    }
+  };
+
+  const lastPaymentIndex = currentPage * paymentsPerPage;
+  const firstPaymentIndex = lastPaymentIndex - paymentsPerPage;
+  const currentPayments = payments.slice(firstPaymentIndex, lastPaymentIndex);
+
+  const lastInvoiceIndex = invoicePage * invoicesPerPage;
+  const firstInvoiceIndex = lastInvoiceIndex - invoicesPerPage;
+  const currentInvoices = selectedInvoices.slice(firstInvoiceIndex, lastInvoiceIndex);
 
   return (
     <div className="success-container">
-      <motion.div
-        initial={{ opacity: 0, y: -30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-        className="title-animation"
-      >
-        <Typography variant="h4" align="center" gutterBottom>
-          <Typewriter
-            options={{
-              strings: ["Successful Transactions"],
-              autoStart: true,
-              loop: true,
-            }}
-          />
-        </Typography>
-      </motion.div>
+      <Typography variant="h4" align="center" gutterBottom>
+        Successful Transactions
+      </Typography>
 
       {loading ? (
         <CircularProgress className="loading-spinner" />
@@ -105,38 +136,33 @@ const SuccessPayments = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {currentPayments.length > 0 ? (
-                currentPayments.map((payment) => (
-                  <TableRow key={payment.id}>
-                    <TableCell>{payment.id}</TableCell>
-                    <TableCell>{payment.paymentName}</TableCell>
-                    <TableCell>{payment.payId}</TableCell>
-                    <TableCell>{payment.payType}</TableCell>
-                    <TableCell>{payment.paymentReceiverName}</TableCell>
-                    <TableCell>{payment.amount}</TableCell>
-                    <TableCell>{payment.companyCode}</TableCell>
-                    <TableCell>{payment.transactionCode}</TableCell>
-                    <TableCell>{payment.plant}</TableCell>
-                    <TableCell>{payment.gst}</TableCell>
-                    <TableCell>
-                      <Button variant="contained" onClick={() => handleViewInvoices(payment.invoices)}>
-                        View
-                      </Button>
-                    </TableCell>
-                    <TableCell>
-                      <Button variant="contained" color="error" onClick={() => handleDelete(payment.id)}>
-                        Delete
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))
-              ) : (
-                <TableRow>
-                  <TableCell colSpan={12} align="center">
-                    No successful payments found.
+              {currentPayments.map((payment) => (
+                <TableRow key={payment.id}>
+                  <TableCell>{payment.id}</TableCell>
+                  <TableCell>{payment.paymentName}</TableCell>
+                  <TableCell>{payment.payId}</TableCell>
+                  <TableCell>{payment.payType}</TableCell>
+                  <TableCell>{payment.paymentReceiverName}</TableCell>
+                  <TableCell>{payment.amount}</TableCell>
+                  <TableCell>{payment.companyCode}</TableCell>
+                  <TableCell>{payment.transactionCode}</TableCell>
+                  <TableCell>{payment.plant}</TableCell>
+                  <TableCell>{payment.gst}</TableCell>
+                  <TableCell>
+                    <Button
+                      variant="contained"
+                      onClick={() => handleViewInvoices(payment.invoices, payment.id)}
+                    >
+                      View
+                    </Button>
+                  </TableCell>
+                  <TableCell>
+                    <Button variant="contained" color="error" onClick={() => handleDelete(payment.id)}>
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
-              )}
+              ))}
             </TableBody>
           </Table>
         </TableContainer>
@@ -149,48 +175,61 @@ const SuccessPayments = () => {
         className="pagination"
       />
 
-      
-<Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
-  <DialogTitle>Invoice Details</DialogTitle>
-  <DialogContent className="modal-content">
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell>Invoice Type</TableCell>
-          <TableCell>Invoice Date</TableCell>
-          <TableCell>Invoice Amount</TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {selectedInvoices.length > 0 ? (
-          selectedInvoices.map((invoice, index) => (
-            <TableRow key={index}>
-              <TableCell>{invoice.invoiceType}</TableCell>
-              <TableCell>
-                {new Intl.DateTimeFormat("en-GB", {
-                  year: "numeric",
-                  month: "2-digit",
-                  day: "2-digit",
-                }).format(new Date(invoice.invoiceDate))}
-              </TableCell>
-              <TableCell>{invoice.invoiceAmount}</TableCell>
-            </TableRow>
-          ))
-        ) : (
-          <TableRow>
-            <TableCell colSpan={3} align="center">
-              No invoices available.
-            </TableCell>
-          </TableRow>
-        )}
-      </TableBody>
-    </Table>
-  </DialogContent>
-  <DialogActions>
-    <Button onClick={() => setIsModalOpen(false)}>Close</Button>
-  </DialogActions>
-</Dialog>
-
+      <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <DialogTitle>Invoice Details</DialogTitle>
+        <DialogContent className="modal-content">
+          <Table>
+            <TableHead>
+              <TableRow>
+                <TableCell>Invoice Type</TableCell>
+                <TableCell>Invoice Date</TableCell>
+                <TableCell>Invoice Amount</TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {currentInvoices.map((invoice, index) => (
+                <TableRow key={index}>
+                  <TableCell>{invoice.invoiceType}</TableCell>
+                  <TableCell>
+                    {new Intl.DateTimeFormat("en-GB", {
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                    }).format(new Date(invoice.invoiceDate))}
+                  </TableCell>
+                  <TableCell>{invoice.invoiceAmount}</TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+          <Pagination
+            count={Math.ceil(selectedInvoices.length / invoicesPerPage)}
+            page={invoicePage}
+            onChange={(event, value) => setInvoicePage(value)}
+            className="pagination"
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCalculateGrandTotal}
+            style={{ marginTop: "10px", width: "100%" }}
+          >
+            Calculate Grand Total
+          </Button>
+        </DialogContent>
+        <DialogActions>
+          {!showGrandTotal ? (
+            <Button variant="contained" color="success" onClick={handleShowGrandTotal}>
+              See Grand Total
+            </Button>
+          ) : (
+            <Typography variant="h6" style={{ padding: "10px" }}>
+              Grand Total: ₹{grandTotal}
+            </Typography>
+          )}
+          <Button onClick={() => setIsModalOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

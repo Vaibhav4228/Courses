@@ -63,13 +63,14 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/payment")
+@CrossOrigin(origins = "*")
 public class PaymentController {
 
     private  PaymentService paymentService;
 
 
-
     public PaymentController(PaymentService paymentService) {
+
         this.paymentService = paymentService;
     }
 
@@ -120,4 +121,5 @@ public class PaymentController {
         return ResponseEntity.ok(paymentService.getAllFailedPayments());
     }
 }
+
 
