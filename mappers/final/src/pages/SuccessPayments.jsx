@@ -17,7 +17,7 @@ import {
   CircularProgress,
 } from "@mui/material";
 import { toast } from "react-toastify";
-import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";  
 import "../styles/SuccessPayments.css";
 
 const SuccessPayments = () => {
@@ -25,18 +25,21 @@ const SuccessPayments = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const paymentsPerPage = 20;
+
   const [selectedInvoices, setSelectedInvoices] = useState([]);
   const [invoicePage, setInvoicePage] = useState(1);
   const invoicesPerPage = 5;
+
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [grandTotal, setGrandTotal] = useState(null);
-  const [currentPayloadId, setCurrentPayloadId] = useState(null);
-  const [showGrandTotal, setShowGrandTotal] = useState(false);
 
   useEffect(() => {
-    const fetchPayments = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:9500/payment/Successfull-Payment");
+      
+        await axiosInstance.get("http://localhost:9500/batch/run");
+
+       
+        const response = await axiosInstance.get("http://localhost:9500/payment/Successfull-Payment");
         setPayments(response.data);
         setLoading(false);
       } catch (error) {
@@ -44,12 +47,13 @@ const SuccessPayments = () => {
         setLoading(false);
       }
     };
-    fetchPayments();
+
+    fetchData();
   }, []);
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:9500/payment/delete/${id}`);
+      await axiosInstance.delete(`http://localhost:9500/payment/delete/${id}`);
       setPayments((prev) => prev.filter((payment) => payment.id !== id));
       toast.success("Payment deleted successfully!");
     } catch (error) {
@@ -57,47 +61,10 @@ const SuccessPayments = () => {
     }
   };
 
-  const handleViewInvoices = (invoices, payloadId) => {
+  const handleViewInvoices = (invoices) => {
     setSelectedInvoices(invoices);
-    setCurrentPayloadId(payloadId);
-    setGrandTotal(null);
-    setShowGrandTotal(false);
     setInvoicePage(1);
     setIsModalOpen(true);
-  };
-
-  const handleCalculateGrandTotal = async () => {
-    if (!currentPayloadId) {
-      toast.error("No Payload ID found!");
-      return;
-    }
-
-    try {
-      await axios.post(`http://localhost:9500/batch/calculate-grand-total/${currentPayloadId}`);
-      toast.success("Batch job started!");
-
-      setTimeout(async () => {
-        const totalResponse = await axios.get(`http://localhost:9500/batch/latest-grand-total/${currentPayloadId}`);
-        setGrandTotal(parseFloat(totalResponse.data).toFixed(3));
-      }, 3000);
-    } catch (error) {
-      toast.error("Error starting batch job.");
-    }
-  };
-
-  const handleShowGrandTotal = async () => {
-    if (!currentPayloadId) {
-      toast.error("No Payload ID found!");
-      return;
-    }
-
-    try {
-      const response = await axios.get(`http://localhost:9500/batch/latest-grand-total/${currentPayloadId}`);
-      setGrandTotal(parseFloat(response.data).toFixed(3));
-      setShowGrandTotal(true);
-    } catch (error) {
-      toast.error("Error fetching grand total.");
-    }
   };
 
   const lastPaymentIndex = currentPage * paymentsPerPage;
@@ -149,10 +116,7 @@ const SuccessPayments = () => {
                   <TableCell>{payment.plant}</TableCell>
                   <TableCell>{payment.gst}</TableCell>
                   <TableCell>
-                    <Button
-                      variant="contained"
-                      onClick={() => handleViewInvoices(payment.invoices, payment.id)}
-                    >
+                    <Button variant="contained" onClick={() => handleViewInvoices(payment.invoices)}>
                       View
                     </Button>
                   </TableCell>
@@ -175,6 +139,7 @@ const SuccessPayments = () => {
         className="pagination"
       />
 
+    
       <Dialog open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <DialogTitle>Invoice Details</DialogTitle>
         <DialogContent className="modal-content">
@@ -208,25 +173,8 @@ const SuccessPayments = () => {
             onChange={(event, value) => setInvoicePage(value)}
             className="pagination"
           />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCalculateGrandTotal}
-            style={{ marginTop: "10px", width: "100%" }}
-          >
-            Calculate Grand Total
-          </Button>
         </DialogContent>
         <DialogActions>
-          {!showGrandTotal ? (
-            <Button variant="contained" color="success" onClick={handleShowGrandTotal}>
-              See Grand Total
-            </Button>
-          ) : (
-            <Typography variant="h6" style={{ padding: "10px" }}>
-              Grand Total: ₹{grandTotal}
-            </Typography>
-          )}
           <Button onClick={() => setIsModalOpen(false)}>Close</Button>
         </DialogActions>
       </Dialog>

@@ -28,7 +28,6 @@ public class SecurityConfig {
     @Autowired
     private JWTAuthFilter jwtAuthFilter;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
@@ -36,7 +35,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request-> request.requestMatchers("/auth/**", "/public/**").permitAll()
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
-                        .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
+//               .requestMatchers("/adminuser/**").hasAnyAuthority("ADMIN", "USER")
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
@@ -45,6 +44,7 @@ public class SecurityConfig {
                 );
         return httpSecurity.build();
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();

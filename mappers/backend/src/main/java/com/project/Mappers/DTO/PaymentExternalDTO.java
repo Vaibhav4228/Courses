@@ -8,6 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentExternalDTO {
+
     private String paymentName;
     private String pay_id;
     private String pay_type;

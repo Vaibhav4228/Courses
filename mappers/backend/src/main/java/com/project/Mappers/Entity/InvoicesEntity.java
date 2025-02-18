@@ -28,4 +28,5 @@ public class InvoicesEntity {
     private PayloadEntity payload;
 
     private Double grandTotal;
+
 }

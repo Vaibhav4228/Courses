@@ -10,10 +10,10 @@ const ProductForm = () => {
     name: "",
     price: "",
     category: "",
+    
   });
   const [loading, setLoading] = useState(false);
-
-  const handleInputChange = (e) => {
+ const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevProduct) => ({
       ...prevProduct,
@@ -30,7 +30,7 @@ const ProductForm = () => {
     }
 
     try {
-      await axios.post("http://localhost:9000/products/add", product, {
+      await axios.post("http://localhost:5000/products/add", product, {
         headers: { "Content-Type": "application/json" },
       });
 
@@ -46,7 +46,7 @@ const ProductForm = () => {
     setLoading(true);
 
     try {
-      await axios.post("http://localhost:9000/products/process");
+      await axios.post("http://localhost:5000/products/process");
 
       setTimeout(() => {
         setLoading(false);
@@ -110,5 +110,4 @@ const ProductForm = () => {
     </div>
   );
 };
-
 export default ProductForm;

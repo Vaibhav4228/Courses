@@ -1,0 +1,53 @@
+.auth-container {
+    max-width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+  
+  .auth-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .auth-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .auth-container form input {
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 14px;
+    border: linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
+    border-radius: 4px;
+  }
+  
+  .auth-container form button {
+    padding: 10px;
+    font-size: 16px;
+    background-color: linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);;
+    color: linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .auth-container form button:hover {
+    background-color:linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
+  }
+  
+  .auth-toggle {
+    display: block;
+    text-align: center;
+    margin-top: 10px;
+    color:linear-gradient(159deg, rgba(8,146,208,1) 0%, rgba(75,0,130,1) 100%);
+    text-decoration: none;
+  }
+  
+  .auth-toggle:hover {
+    text-decoration: underline;
+  }
+  

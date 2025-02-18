@@ -1,11 +1,14 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, Close, Home, Receipt, Save, CheckCircle, Cancel } from "@mui/icons-material";
+import { Menu, Close, Home, Receipt, Save, CheckCircle, Cancel, Logout } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import "../styles/Sidebar.css";
+import { useAuth } from "../auth/AuthContext";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { logout } = useAuth();
 
   return (
     <motion.div
@@ -22,24 +25,39 @@ const Sidebar = () => {
           <Home className="nav-icon" />
           {isOpen && <span>Home</span>}
         </Link>
+
         <Link to="/convert-payment" className="nav-item">
           <Receipt className="nav-icon" />
           {isOpen && <span>Convert Payment</span>}
         </Link>
+
         <Link to="/save-payment" className="nav-item">
           <Save className="nav-icon" />
           {isOpen && <span>Save Payment</span>}
         </Link>
+
         <Link to="/successful-payments" className="nav-item">
           <CheckCircle className="nav-icon" />
           {isOpen && <span>Successful</span>}
         </Link>
+
         <Link to="/failed-payments" className="nav-item">
           <Cancel className="nav-icon" />
           {isOpen && <span>Failed</span>}
         </Link>
-    
       </nav>
+
+      {/* Logout Button at the Bottom */}
+      <div className="sidebar-footer">
+        <Button
+          variant="contained"
+          color="error"
+          onClick={logout}
+          className="logout-button"
+        >
+          {isOpen ? "Logout" : <Logout />}
+        </Button>
+      </div>
     </motion.div>
   );
 };

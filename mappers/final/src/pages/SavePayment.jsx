@@ -19,6 +19,7 @@ import {
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import axiosInstance from "../utils/axiosInstance";
 import "../styles/SavePayment.css";
 
 const SavePayment = () => {
@@ -114,7 +115,7 @@ const SavePayment = () => {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:9500/payment/Saving-DB", paymentData);
+      await axiosInstance.post("http://localhost:9500/payment/Saving-DB", paymentData); 
       toast.success("Payment saved successfully!");
       navigate("/successful-payments");
     } catch (error) {

@@ -18,11 +18,12 @@ services:
 
  
   backend:
-    image: springboot-backend
+    # image: springboot-backend
     container_name: springboot-backend
-    build: ./backend  
+    # build: ./backend  
+    image: backend:v1
     ports:
-      - "8080:8080"
+      - "8080:9000"
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/batch
       SPRING_DATASOURCE_USERNAME: postgres

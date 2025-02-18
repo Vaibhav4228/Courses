@@ -17,7 +17,8 @@ import {
   DialogActions
 } from "@mui/material";
 import { toast } from "react-toastify";
-import axios from "axios";
+
+import axiosInstance from "../utils/axiosInstance";
 import "../styles/FailedPayments.css";
 
 const FailedPayments = () => {
@@ -31,7 +32,7 @@ const FailedPayments = () => {
   useEffect(() => {
     const fetchFailedPayments = async () => {
       try {
-        const response = await axios.get("http://localhost:9500/payment/Failed-Payments");
+        const response = await axiosInstance.get("http://localhost:9500/payment/Failed-Payments");
         setFailedPayments(response.data);
         setLoading(false);
       } catch (error) {
@@ -45,7 +46,7 @@ const FailedPayments = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:9500/payment/delete/${id}`);
+      await axiosInstance.delete(`http://localhost:9500/payment/delete/${id}`);
       setFailedPayments((prev) => prev.filter((payment) => payment.id !== id));
       toast.success("Failed payment deleted successfully!");
     } catch (error) {
