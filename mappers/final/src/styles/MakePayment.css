@@ -1,0 +1,56 @@
+/* src/styles/MakePayment.css */
+
+.make-payment-container {
+    /* Blue gradient background */
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .make-payment-content {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 40px;
+    border-radius: 8px;
+    color: #fff;
+    width: 400px;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .input-row {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: #fff;
+  }
+  
+  .input-row label {
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .input-row input {
+    padding: 8px;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    width: 100%;
+  }
+  
+  .payment-button {
+    background-color: #2a5298;
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .payment-button:hover {
+    background-color: #1e3c72;
+  }
+  

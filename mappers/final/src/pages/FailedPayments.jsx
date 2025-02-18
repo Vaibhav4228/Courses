@@ -119,7 +119,6 @@ const FailedPayments = () => {
         className="pagination"
       />
 
-      {/* Dialog for Raw Data */}
       <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} fullWidth maxWidth="md">
         <DialogTitle>Raw Data</DialogTitle>
         <DialogContent>

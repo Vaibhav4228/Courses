@@ -3,7 +3,6 @@ import { TextField, Button, CircularProgress } from "@mui/material";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { debounce, throttle } from "lodash";
-// 🔹 Import the interceptor-based axios
 import axiosInstance from "../utils/axiosInstance";
 import "../styles/ConvertPayment.css";
 
@@ -13,7 +12,6 @@ const ConvertPayment = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Debounce user input to avoid heavy re-renders
   const debouncedInputChange = useCallback(
     debounce((value) => {
       setInputData(value);
@@ -21,14 +19,11 @@ const ConvertPayment = () => {
     []
   );
 
-  // Throttle the convert action to avoid spamming the endpoint
   const throttledConvert = useCallback(
     throttle(async () => {
       try {
         setLoading(true);
         const jsonPayload = JSON.parse(inputData);
-
-        // 🔹 Use axiosInstance to ensure Bearer token is attached
         const response = await axiosInstance.post(
           "http://localhost:9500/payment/change",
           jsonPayload

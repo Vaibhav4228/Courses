@@ -1,7 +1,17 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Menu, Close, Home, Receipt, Save, CheckCircle, Cancel, Logout } from "@mui/icons-material";
+import {
+  Menu,
+  Close,
+  Home,
+  Receipt,
+  Save,
+  CheckCircle,
+  Cancel,
+  Logout,
+  Payment 
+} from "@mui/icons-material";
 import { Button } from "@mui/material";
 import "../styles/Sidebar.css";
 import { useAuth } from "../auth/AuthContext";
@@ -45,9 +55,12 @@ const Sidebar = () => {
           <Cancel className="nav-icon" />
           {isOpen && <span>Failed</span>}
         </Link>
+        <Link to="/make-payment" className="nav-item">
+          <Payment className="nav-icon" />
+          {isOpen && <span>Make Payment</span>}
+        </Link>
       </nav>
 
-      {/* Logout Button at the Bottom */}
       <div className="sidebar-footer">
         <Button
           variant="contained"

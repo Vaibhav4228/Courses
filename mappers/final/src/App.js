@@ -14,6 +14,7 @@ import Login from "./auth/Login";
 import Logout from "./auth/Logout";
 import { AuthProvider, useAuth } from "./auth/AuthContext";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import MakePayment from "./pages/MakePayment";
 
 function App() {
   return (
@@ -42,7 +43,10 @@ function MainApp() {
           <Route path="/convert-payment" element={<ProtectedRoute><ConvertPayment /></ProtectedRoute>} />
           <Route path="/save-payment" element={<ProtectedRoute><SavePayment /></ProtectedRoute>} />
           <Route path="/successful-payments" element={<ProtectedRoute><SuccessPayments /></ProtectedRoute>} />
-          <Route path="/failed-payments" element={<ProtectedRoute><FailedPayments /></ProtectedRoute>} />
+          <Route path="/failed-payments" element={<ProtectedRoute><FailedPayments />
+          </ProtectedRoute>} />
+          <Route path="/make-payment" element={<ProtectedRoute><MakePayment /></ProtectedRoute>} />
+  
         </Routes>
       </div>
     </div>
