@@ -12,6 +12,7 @@ const ProductForm = () => {
     category: "",
     
   });
+
   const [loading, setLoading] = useState(false);
  const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -110,4 +111,5 @@ const ProductForm = () => {
     </div>
   );
 };
+
 export default ProductForm;
