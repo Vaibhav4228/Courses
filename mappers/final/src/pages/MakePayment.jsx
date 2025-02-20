@@ -8,7 +8,6 @@ const MakePayment = () => {
   const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-
   const handlePayment = async () => {
     try {
       setLoading(true);
@@ -19,10 +18,10 @@ const MakePayment = () => {
       });
       const { orderId } = orderResponse.data;
       const options = {
-        key: "rzp_test_QRLvmnK1ODYroG",
+        key: process.env.REACT_APP_RAZORPAY_KEY,
         amount: parseFloat(amount) * 100,
         currency: "INR",
-        name: "My Payment",
+        name: "Vaibhav",
         description: "Test Transaction",
         order_id: orderId,
         handler: function (response) {
@@ -32,7 +31,7 @@ const MakePayment = () => {
         prefill: {
           name: "vaibhav",
           email: "vaibhav@gmail.com",
-          contact: "9999999999",
+          contact: "6268111086",
         },
         theme: {
           color: "#3399cc",
@@ -72,5 +71,4 @@ const MakePayment = () => {
     </div>
   );
 };
-
 export default MakePayment;
