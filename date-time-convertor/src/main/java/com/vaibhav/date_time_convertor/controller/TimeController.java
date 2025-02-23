@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @RequestMapping("/api")
 @RequiredArgsConstructor
 public class TimeController {
-
     @Autowired
     TimeService timeService;
 
@@ -32,4 +31,3 @@ public class TimeController {
         return timeService.parseAndProcess(dateTime, keepMs);
     }
 }
-
