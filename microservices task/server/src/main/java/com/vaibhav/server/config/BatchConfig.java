@@ -1,7 +1,11 @@
 package com.vaibhav.server.config;
 
 import com.vaibhav.server.entity.Product;
+import com.vaibhav.server.mappers.ProductMapper;
+import com.vaibhav.server.mappers.ProductRequestMapper;
 import com.vaibhav.server.repo.ProductRepository;
+import com.vaibhav.shared.dto.ProductDTO;
+import com.vaibhav.shared.dto.ProductRequestDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -19,6 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.transaction.PlatformTransactionManager;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,59 +32,68 @@ public class BatchConfig {
 
     @Bean
     @StepScope
-    public ItemReader<Product> itemReader(ProductRepository repository) {
+    public ItemReader<ProductRequestDTO> itemReader(ProductRepository repository, ProductMapper productMapper) { // Change return type
         List<Product> products = repository.findAll();
-        log.info("ItemReader loaded {} products from the database", products.size());
-        return new ListItemReader<>(products);
+        List<ProductRequestDTO> requestDTOs = new ArrayList<>();
+        for (Product product: products) {
+            requestDTOs.add(productMapper.toDto(product));
+        }
+        log.info("ItemReader loaded {} products from the database", requestDTOs.size());
+        return new ListItemReader<>(requestDTOs);
     }
 
-
     @Bean
-    public ItemProcessor<Product, Product> itemProcessor() {
-        return product -> {
-            double originalPrice = product.getProductPrice();
-            product.setDiscountedPrice(originalPrice * 0.9);
+    public ItemProcessor<ProductRequestDTO, ProductDTO> itemProcessor(ProductRequestMapper requestMapper) { // Change input type, inject mapper
+        return requestDTO -> {
+            ProductDTO dto = requestMapper.toDto(requestDTO);
+            double originalPrice = dto.getProductPrice();
+            dto.setDiscountedPrice(originalPrice * 0.9);
             log.info("Processed Product: {} originalPrice: {} discountedPrice: {}",
-                    product.getProductName(), originalPrice, product.getDiscountedPrice());
-            return product;
+                    dto.getProductName(), originalPrice, dto.getDiscountedPrice());
+            return dto;
         };
     }
 
 
     @Bean
-    public ItemWriter<Product> itemWriter(ProductRepository repository) {
+    public ItemWriter<ProductDTO> itemWriter(ProductRepository repository, ProductMapper mapper) {
         return items -> {
-            repository.saveAll(items);
+            List<Product> products = new ArrayList<>();
+            for (ProductDTO item: items) {
+                products.add(mapper.toEntity(item));
+            }
+            repository.saveAll(products);
             log.info("Saved {} processed products", items.size());
         };
     }
 
 
+
     @Bean
     public Step step(JobRepository jobRepository, PlatformTransactionManager transactionManager,
-                     ItemReader<Product> reader,
-                     ItemProcessor<Product, Product> processor,
-                     ItemWriter<Product> writer) {
+                     ItemReader<ProductRequestDTO> reader,
+                     ItemProcessor<ProductRequestDTO, ProductDTO> processor,
+                     ItemWriter<ProductDTO> writer) {
 
         return new StepBuilder("step", jobRepository)
-                .<Product, Product>chunk(3, transactionManager)
+                .<ProductRequestDTO, ProductDTO>chunk(3, transactionManager)
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
                 .faultTolerant()
                 .skip(Exception.class)
                 .skipLimit(2)
-                .listener(new SkipListener<Product, Product>() {
+                .listener(new SkipListener<ProductRequestDTO, ProductDTO>() {
                     @Override
                     public void onSkipInRead(Throwable t) {
                         log.warn("Skipped reading due to: {}", t.getMessage());
                     }
                     @Override
-                    public void onSkipInWrite(Product item, Throwable t) {
+                    public void onSkipInWrite(ProductDTO item, Throwable t) {
                         log.warn("Skipped writing item: {} due to: {}", item, t.getMessage());
                     }
                     @Override
-                    public void onSkipInProcess(Product item, Throwable t) {
+                    public void onSkipInProcess(ProductRequestDTO item, Throwable t) {
                         log.warn("Skipped processing item: {} due to: {}", item, t.getMessage());
                     }
                 })

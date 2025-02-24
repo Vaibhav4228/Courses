@@ -1,15 +1,17 @@
 package com.vaibhav.cleint_1.controller;
 
+import com.vaibhav.shared.dto.ProductDTO;
+import com.vaibhav.shared.dto.ProductRequestDTO;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/l1")
@@ -25,12 +27,23 @@ public class L1Controller {
     }
 
     @PostMapping("/send")
-    public ResponseEntity<List<Map<String, Object>>> sendDataToL2(@RequestBody List<Map<String, Object>> requestData) {
-        ResponseEntity<List> response = restTemplate.postForEntity(
+    public ResponseEntity<List<ProductDTO>> sendDataToL2(@RequestBody List<ProductRequestDTO> requestData) {
+        List<ProductDTO> productDTOs = new ArrayList<>();
+        for (ProductRequestDTO requestDTO: requestData) {
+            ProductDTO productDTO = new ProductDTO();
+            productDTO.setProductName(requestDTO.getProductName());
+            productDTO.setProductPrice(requestDTO.getProductPrice());
+            productDTO.setProductCategory(requestDTO.getProductCategory());
+            productDTOs.add(productDTO);
+        }
+
+        ResponseEntity<List<ProductDTO>> response = restTemplate.exchange(
                 l2ServerUrl + "/api/l2/process",
-                requestData,
-                List.class
+                HttpMethod.POST,
+                new HttpEntity<>(productDTOs),
+                new ParameterizedTypeReference<List<ProductDTO>>() {}
         );
+
 
         return ResponseEntity.ok(response.getBody());
     }
